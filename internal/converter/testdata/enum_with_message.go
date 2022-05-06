@@ -13,7 +13,9 @@ const EnumWithMessage = `{
                         "Bar",
                         1,
                         "Baz",
-                        2
+                        2,
+                        "fooBarBazBee",
+                        3
                     ],
                     "oneOf": [
                         {
