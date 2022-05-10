@@ -10,7 +10,7 @@ message PayloadMessage {
         NESTED_MESSAGE   = 2;
         ARRAY_OF_TYPE    = 3;
         ARRAY_OF_OBJECT  = 4;
-        ARRAY_OF_MESSAGE = 5 [(protoc.gen.jsonschema.enum_json_schema_value).value = "arrayOfMessages"];
+        ARRAY_OF_MESSAGE = 5 [(protoc.gen.jsonschema.enum_value_options).json_schema_value = "arrayOfMessages"];
     }
 
     string name       = 1;

@@ -18,7 +18,7 @@ const EnumNestedReference = `{
                         3,
                         "ARRAY_OF_OBJECT",
                         4,
-                        "ARRAY_OF_MESSAGE",
+                        "arrayOfMessages",
                         5
                     ],
                     "oneOf": [

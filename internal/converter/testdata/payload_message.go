@@ -33,7 +33,7 @@ const PayloadMessage = `{
                         3,
                         "ARRAY_OF_OBJECT",
                         4,
-                        "ARRAY_OF_MESSAGE",
+                        "arrayOfMessages",
                         5
                     ],
                     "oneOf": [
@@ -56,4 +56,4 @@ const PayloadMessage = `{
 
 const PayloadMessageFail = `{"topology": "MAP"}`
 
-const PayloadMessagePass = `{"topology": "ARRAY_OF_MESSAGE"}`
+const PayloadMessagePass = `{"topology": "arrayOfMessages"}`

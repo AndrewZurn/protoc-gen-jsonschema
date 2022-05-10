@@ -49,7 +49,7 @@ const ArrayOfMessages = `{
                         3,
                         "ARRAY_OF_OBJECT",
                         4,
-                        "ARRAY_OF_MESSAGE",
+                        "arrayOfMessages",
                         5
                     ],
                     "oneOf": [
@@ -80,6 +80,6 @@ const ArrayOfMessagesFail = `{
 const ArrayOfMessagesPass = `{
     "description": "something",
     "payload": [
-        {"topology": "ARRAY_OF_MESSAGE"}
+        {"topology": "arrayOfMessages"}
     ]
 }`

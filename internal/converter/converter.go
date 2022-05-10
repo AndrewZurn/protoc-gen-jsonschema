@@ -202,10 +202,10 @@ func (c *Converter) convertEnumType(enum *descriptor.EnumDescriptorProto, conver
 		}
 
 		// Add the values to the ENUM:
-		ext := proto.GetExtension(value.Options, protos.E_EnumJsonSchemaValue)
-		jsonSchemaValue := ext.(*protos.EnumJsonSchemaValue)
+		ext := proto.GetExtension(value.Options, protos.E_EnumValueOptions)
+		jsonSchemaValue := ext.(*protos.EnumValueOptions)
 		if jsonSchemaValue != nil {
-			jsonSchemaType.Enum = append(jsonSchemaType.Enum, jsonSchemaValue.Value)
+			jsonSchemaType.Enum = append(jsonSchemaType.Enum, jsonSchemaValue.JsonSchemaValue)
 		} else { // did not have an extension/override, so use the generated name value
 			jsonSchemaType.Enum = append(jsonSchemaType.Enum, value.Name)
 		}

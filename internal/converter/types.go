@@ -182,8 +182,6 @@ func (c *Converter) convertField(curPkg *ProtoPackage, desc *descriptor.FieldDes
 
 	case descriptor.FieldDescriptorProto_TYPE_ENUM:
 
-		// TODO figure it out here how to use enum_json_value
-
 		// Go through all the enums we have, see if we can match any to this field.
 		fullEnumIdentifier := strings.TrimPrefix(desc.GetTypeName(), ".")
 		matchedEnum, _, ok := c.lookupEnum(curPkg, fullEnumIdentifier)

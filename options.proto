@@ -25,6 +25,9 @@ message FieldOptions {
 
   // Fields tagged with this will constrain strings using the "pattern" keyword in generated schemas
   string pattern = 5;
+
+  // Fields tagged with this will define an alternative JSON Schema type (ie. 'string' for a DateTime object)
+  string json_schema_type = 6;
 }
 
 
@@ -86,10 +89,10 @@ extend google.protobuf.EnumOptions {
   EnumOptions enum_options = 1128;
 }
 
-message EnumJsonSchemaValue {
-  string value = 1;
+message EnumValueOptions {
+  string json_schema_value = 1;
 }
 
 extend google.protobuf.EnumValueOptions {
-  EnumJsonSchemaValue enum_json_schema_value = 1129;
+  EnumValueOptions enum_value_options = 1129;
 }

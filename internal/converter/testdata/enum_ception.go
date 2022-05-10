@@ -131,7 +131,7 @@ const EnumCeption = `{
                         3,
                         "ARRAY_OF_OBJECT",
                         4,
-                        "ARRAY_OF_MESSAGE",
+                        "arrayOfMessages",
                         5
                     ],
                     "oneOf": [
@@ -154,4 +154,4 @@ const EnumCeption = `{
 
 const EnumCeptionFail = `{"payloads": [ {"topology": "MAP"} ]}`
 
-const EnumCeptionPass = `{"payloads": [ {"topology": "ARRAY_OF_MESSAGE"} ]}`
+const EnumCeptionPass = `{"payloads": [ {"topology": "arrayOfMessages"} ]}`
