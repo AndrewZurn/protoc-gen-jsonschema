@@ -217,6 +217,9 @@ func (c *Converter) convertField(curPkg *ProtoPackage, desc *descriptor.FieldDes
 		case ".google.protobuf.Timestamp":
 			jsonSchemaType.Type = gojsonschema.TYPE_STRING
 			jsonSchemaType.Format = "date-time"
+		case ".com.dexcom.partner.api.models.proto.v3.TimestampWithOffset":
+			jsonSchemaType.Type = gojsonschema.TYPE_STRING
+			jsonSchemaType.Format = "date-time"
 		default:
 			jsonSchemaType.Type = gojsonschema.TYPE_OBJECT
 			if desc.GetLabel() == descriptor.FieldDescriptorProto_LABEL_OPTIONAL {
@@ -372,7 +375,10 @@ func (c *Converter) convertMessageType(curPkg *ProtoPackage, msgDesc *descriptor
 		}
 
 		// Add the schema to our definitions:
-		definitions[name] = refType
+		// hack to ignore adding our TimestampWithOffset class
+		if !strings.Contains(name, "TimestampWithOffset") {
+			definitions[name] = refType
+		}
 	}
 
 	// Put together a JSON schema with our discovered definitions, and a $ref for the root type:
