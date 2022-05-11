@@ -217,9 +217,6 @@ func (c *Converter) convertField(curPkg *ProtoPackage, desc *descriptor.FieldDes
 		case ".google.protobuf.Timestamp":
 			jsonSchemaType.Type = gojsonschema.TYPE_STRING
 			jsonSchemaType.Format = "date-time"
-		case ".com.dexcom.partner.api.models.proto.v3.TimestampWithOffset":
-			jsonSchemaType.Type = gojsonschema.TYPE_STRING
-			jsonSchemaType.Format = "date-time"
 		default:
 			jsonSchemaType.Type = gojsonschema.TYPE_OBJECT
 			if desc.GetLabel() == descriptor.FieldDescriptorProto_LABEL_OPTIONAL {
@@ -235,6 +232,21 @@ func (c *Converter) convertField(curPkg *ProtoPackage, desc *descriptor.FieldDes
 
 	default:
 		return nil, fmt.Errorf("unrecognized field type: %s", desc.GetType().String())
+	}
+
+	opts := desc.GetOptions()
+	if opts != nil && proto.HasExtension(opts, protos.E_FieldOptions) {
+		if opt := proto.GetExtension(opts, protos.E_FieldOptions); opt != nil {
+			if fieldOptions, ok := opt.(*protos.FieldOptions); ok {
+				if fieldType := fieldOptions.GetJsonSchemaType(); fieldType != "" {
+					jsonSchemaType.Type = gojsonschema.TYPE_STRING
+					jsonSchemaType.AdditionalProperties = nil
+					if format := fieldOptions.GetJsonSchemaTypeFormat(); format != "" {
+						jsonSchemaType.Format = format
+					}
+				}
+			}
+		}
 	}
 
 	// Recurse array of primitive types:
@@ -375,10 +387,7 @@ func (c *Converter) convertMessageType(curPkg *ProtoPackage, msgDesc *descriptor
 		}
 
 		// Add the schema to our definitions:
-		// hack to ignore adding our TimestampWithOffset class
-		if !strings.Contains(name, "TimestampWithOffset") {
-			definitions[name] = refType
-		}
+		definitions[name] = refType
 	}
 
 	// Put together a JSON schema with our discovered definitions, and a $ref for the root type:

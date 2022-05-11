@@ -28,6 +28,9 @@ message FieldOptions {
 
   // Fields tagged with this will define an alternative JSON Schema type (ie. 'string' for a DateTime object)
   string json_schema_type = 6;
+
+  // Fields tagged with this will define an alternative JSON Schema type (ie. 'date-time' for a DateTime object)
+  string json_schema_type_format = 7;
 }
 
 
