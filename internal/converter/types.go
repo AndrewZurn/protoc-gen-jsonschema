@@ -217,6 +217,9 @@ func (c *Converter) convertField(curPkg *ProtoPackage, desc *descriptor.FieldDes
 		case ".google.protobuf.Timestamp":
 			jsonSchemaType.Type = gojsonschema.TYPE_STRING
 			jsonSchemaType.Format = "date-time"
+		case ".com.dexcom.partner.api.models.proto.v3.TimestampWithOffset":
+			jsonSchemaType.Type = gojsonschema.TYPE_STRING
+			jsonSchemaType.Format = "date-time"
 		default:
 			jsonSchemaType.Type = gojsonschema.TYPE_OBJECT
 			if desc.GetLabel() == descriptor.FieldDescriptorProto_LABEL_OPTIONAL {
@@ -384,6 +387,19 @@ func (c *Converter) convertMessageType(curPkg *ProtoPackage, msgDesc *descriptor
 		refType, err := c.recursiveConvertMessageType(curPkg, refmsgDesc, "", duplicatedMessages, true)
 		if err != nil {
 			return nil, err
+		}
+
+		// Check for our custom message options are set for our reference message
+		if opts := refmsgDesc.GetOptions(); opts != nil && proto.HasExtension(opts, protos.E_MessageOptions) {
+			if opt := proto.GetExtension(opts, protos.E_MessageOptions); opt != nil {
+				if messageOptions, ok := opt.(*protos.MessageOptions); ok {
+					// "Ignored" messages are simply skipped:
+					if messageOptions.GetIgnore() {
+						c.logger.WithField("msg_name", msgDesc.GetName()).Debug("Skipping ignored message")
+						continue
+					}
+				}
+			}
 		}
 
 		// Add the schema to our definitions:
