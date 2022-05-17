@@ -94,6 +94,7 @@ extend google.protobuf.EnumOptions {
 
 message EnumValueOptions {
   string json_schema_value = 1;
+  bool ignore = 2;
 }
 
 extend google.protobuf.EnumValueOptions {

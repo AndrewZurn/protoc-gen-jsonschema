@@ -191,6 +191,13 @@ func (c *Converter) convertEnumType(enum *descriptor.EnumDescriptorProto, conver
 			_, valueDescription = c.formatTitleAndDescription(nil, src)
 		}
 
+		// Add the values to the ENUM:
+		ext := proto.GetExtension(value.Options, protos.E_EnumValueOptions)
+		ignoreValue := ext.(*protos.EnumValueOptions).Ignore
+		if ignoreValue {
+			continue
+		}
+
 		// If we're using constants for ENUMs then add these here, along with their title:
 		if converterFlags.EnumsAsConstants {
 			c.schemaVersion = versionDraft06 // Const requires draft-06
@@ -202,10 +209,9 @@ func (c *Converter) convertEnumType(enum *descriptor.EnumDescriptorProto, conver
 		}
 
 		// Add the values to the ENUM:
-		ext := proto.GetExtension(value.Options, protos.E_EnumValueOptions)
-		jsonSchemaValue := ext.(*protos.EnumValueOptions)
-		if jsonSchemaValue != nil {
-			jsonSchemaType.Enum = append(jsonSchemaType.Enum, jsonSchemaValue.JsonSchemaValue)
+		jsonSchemaValue := ext.(*protos.EnumValueOptions).JsonSchemaValue
+		if jsonSchemaValue != "" {
+			jsonSchemaType.Enum = append(jsonSchemaType.Enum, jsonSchemaValue)
 		} else { // did not have an extension/override, so use the generated name value
 			jsonSchemaType.Enum = append(jsonSchemaType.Enum, value.Name)
 		}

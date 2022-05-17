@@ -232,3 +232,5 @@ Links
 * [About JSON Schema](http://json-schema.org/)
 * [Popular GoLang JSON-Schema validation library](https://github.com/xeipuuv/gojsonschema)
 * [Another GoLang JSON-Schema validation library](https://github.com/lestrrat/go-jsschema)
+
+To generate the options.proto file: `protoc --proto_path=. --go_out=internal/protos/ --go_opt=paths=source_relative options.proto`
